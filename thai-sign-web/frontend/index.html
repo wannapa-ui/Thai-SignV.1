@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thai Sign Language · Translator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">🤟</span>
+        <div>
+          <div class="logo-title">Thai Sign</div>
+          <div class="logo-sub">Language Translator</div>
+        </div>
+      </div>
+      <div class="status-bar">
+        <span class="dot" id="statusDot"></span>
+        <span id="statusText">กำลังเชื่อมต่อ...</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <main class="main">
+
+    <!-- Camera Panel -->
+    <section class="camera-panel">
+      <div class="cam-wrapper">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="overlay"></canvas>
+
+        <!-- Prediction Overlay -->
+        <div class="pred-overlay" id="predOverlay">
+          <div class="pred-badge" id="predBadge">
+            <span id="predText">— รอสัญญาณมือ —</span>
+            <span class="conf-pill" id="confPill"></span>
+          </div>
+        </div>
+
+        <!-- Hand indicator -->
+        <div class="hand-indicator" id="handIndicator">
+          <span class="hand-icon">✋</span>
+          <span id="handCount">ไม่พบมือ</span>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls">
+        <button class="btn btn-primary" id="startBtn">
+          <span class="btn-icon">▶</span> เริ่มกล้อง
+        </button>
+        <button class="btn btn-danger hidden" id="stopBtn">
+          <span class="btn-icon">■</span> หยุด
+        </button>
+        <button class="btn btn-ghost" id="clearBtn">
+          <span class="btn-icon">↺</span> รีเซ็ต
+        </button>
+
+        <div class="sensitivity-row">
+          <label>ความเร็ว API</label>
+          <input type="range" id="intervalSlider" min="200" max="1500" value="500" step="100" />
+          <span id="intervalVal">500ms</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Result Panel -->
+    <section class="result-panel">
+
+      <!-- Current Prediction -->
+      <div class="card card-main">
+        <div class="card-label">ผลการทำนายล่าสุด</div>
+        <div class="pred-main" id="predMain">—</div>
+        <div class="conf-bar-wrap">
+          <div class="conf-bar-bg">
+            <div class="conf-bar-fill" id="confBarFill"></div>
+          </div>
+          <span class="conf-pct" id="confPct">0%</span>
+        </div>
+      </div>
+
+      <!-- Top 3 -->
+      <div class="card">
+        <div class="card-label">Top 3 ความน่าจะเป็น</div>
+        <div class="top3-list" id="top3List">
+          <div class="top3-empty">ยังไม่มีข้อมูล</div>
+        </div>
+      </div>
+
+      <!-- History -->
+      <div class="card card-history">
+        <div class="card-label-row">
+          <div class="card-label">ประวัติการทำนาย</div>
+          <button class="btn-tiny" id="clearHistBtn">ล้าง</button>
+        </div>
+        <div class="history-list" id="historyList">
+          <div class="history-empty">ยังไม่มีประวัติ</div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-num" id="statFrames">0</div>
+          <div class="stat-label">เฟรมบัฟเฟอร์</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statTotal">0</div>
+          <div class="stat-label">ทำนายทั้งหมด</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statFPS">0</div>
+          <div class="stat-label">FPS กล้อง</div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- MediaPipe -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/hands.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3.1640029074/camera_utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3.1620248257/drawing_utils.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
