@@ -50,7 +50,7 @@ const hands = new Hands({
 
 hands.setOptions({
   maxNumHands: 2,
-  modelComplexity: 0,
+  modelComplexity: 1,
   minDetectionConfidence: 0.6,
   minTrackingConfidence: 0.6,
 });
